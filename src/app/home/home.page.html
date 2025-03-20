@@ -1,20 +1,100 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+
+   <ion-title>Home</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="navigateTo('/listado')">Listado</ion-button>
+      <ion-button (click)="navigateTo('/skills')">Skills</ion-button>
+      <ion-button *ngIf="!isAuth" (click)="navigateTo('/login')">Login</ion-button>
+
+      <ion-chip *ngIf="isAuth" (click)="logout()">
+        <ion-avatar>
+          <img alt="User Avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <ion-label>{{ userName }}</ion-label>
+        <ion-icon src="https://unpkg.com/ionicons@5.5.2/dist/svg/log-out-outline.svg"></ion-icon>
+      </ion-chip>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <!-- ABOUT -->
+  <section class="about-us">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title size="large">About Us</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <p>Hola, está es mi primera app de angular!</p>
+  </section>
+
+  <!-- CARDS -->
+  <div class="cards-container">
+    <ion-card *ngFor="let card of cards">
+      <ion-card-header>
+        <ion-card-title>{{ card.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <img [src]="card.imageUrl" alt="{{ card.title }}" (click)="imageOpenModal(card.imageUrl)" />
+        {{ card.description }}
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- SLIDER -->
+  <swiper-container loop="true" slidesPerView="1" [pagination]="true">
+    <swiper-slide *ngFor="let item of sliderItems">
+      <img [src]="item.image" alt="{{ item.title }}">
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- BTTN LISTADO -->
+  <ion-button expand="full" (click)="navigateTo('/listado')">LISTADO</ion-button>
+
+  <!-- MODALES -->
+  <!-- LOGIN -->
+  <div *ngIf="isAuth" class="greeting">
+    <ion-label></ion-label>
+  </div>
+  <ion-modal #greetingModal [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]" handleBehavior="cycle">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top">
+          <ion-label>Welcome {{ userName }}!!</ion-label>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- EXPAND IMAGE -->
+  <ion-modal #imageModal [initialBreakpoint]="1" [breakpoints]="[0, 1]" handleBehavior="cycle">
+    <ng-template>
+      <ion-content class="ion-padding modal-image-content">
+
+        <img [src]="selectedImage" alt="Imagen ampliada" class="full-image" />
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- LOGOUT -->
+  <ion-modal #logoutModal [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]" handleBehavior="cycle">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top">
+          <ion-label>You’ve logged out successfully. Come back anytime!</ion-label>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
 </ion-content>
+
