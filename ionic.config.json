@@ -1,0 +1,7 @@
+{
+  "name": "Tata",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
